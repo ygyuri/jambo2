@@ -1,0 +1,67 @@
+/* big-card.css */
+
+/* Styles for the BigCard container */
+#big-card-container {
+    position: absolute;
+    bottom: 20px; /* Adjust the bottom position */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* Styles for the BigCard */
+.big-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Background color for the container */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333; /* Text color */
+}
+
+.section {
+    display: flex;
+    gap: 20px;
+}
+
+.card,
+.location-card {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff; /* Background color for the fields */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background-color 0.3s; /* Smooth transition on hover */
+}
+
+/* Change background color on hover */
+.card:hover,
+.location-card:hover {
+    background-color: #f0f0f0;
+}
+
+.location-field {
+    margin-bottom: 10px;
+}
+
+.distance,
+.price {
+    margin-top: 10px;
+}
+
+/* Add toggle button styles */
+.toggle-button {
+    background-color: #007bff; /* Blue color for toggle button */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+}

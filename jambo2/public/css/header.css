@@ -1,0 +1,30 @@
+/* resources/css/header.css */
+
+/* Header container */
+.header {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center vertically */
+    background-color: #f0f0f0; /* Background color */
+    padding: 10px 20px; /* Padding */
+}
+
+/* Header icons */
+.header-icons {
+    display: flex; /* Use flexbox for layout */
+}
+
+/* Header icon link */
+.header-icon {
+    margin-right: 10px; /* Adjust margin between icons */
+    color: #333; /* Icon color */
+    text-decoration: none; /* Remove underline */
+    font-size: 18px; /* Icon size */
+}
+
+/* Header link */
+.header-link {
+    margin-right: 10px; /* Adjust margin between links */
+    color: #333; /* Link color */
+    text-decoration: none; /* Remove underline */
+}

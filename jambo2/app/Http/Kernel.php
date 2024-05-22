@@ -64,5 +64,21 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin.auth' => \App\Http\Middleware\IsAdmin::class, // Custom middleware for admin authentication
+        'client.auth' => \App\Http\Middleware\ClientAuthMiddleware::class, // Custom middleware for client authentication
+        'adminOrClient' => \App\Http\Middleware\AdminOrClient::class, // Custom middleware for both admin and client access
+    ];
+
+    /**
+     * The application's route middleware.
+     *
+     * These middleware may be assigned to groups or used individually.
+     *
+     * @var array<string, class-string|string>
+     */
+    protected $routeMiddleware = [
+        'admin.auth' => \App\Http\Middleware\IsAdmin::class, // Custom middleware for admin authentication
+        'client.auth' => \App\Http\Middleware\ClientAuthMiddleware::class, // Custom middleware for client authentication
+        'adminOrClient' => \App\Http\Middleware\AdminOrClient::class, // Custom middleware for both admin and client access
     ];
 }

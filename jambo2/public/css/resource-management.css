@@ -1,0 +1,95 @@
+/* Reset default margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the containers horizontally */
+}
+
+.form-container {
+    width: 100%; /* Cover the whole horizontal length */
+    max-width: 600px; /* Limit the max width */
+    padding: 20px; /* Add padding for spacing */
+    margin-bottom: 10px; /* Add margin between containers */
+    box-sizing: border-box; /* Include padding in width calculation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.form {
+    width: 100%;
+    max-width: 600px; /* Adjust maximum width as needed */
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Vertical layout */
+}
+
+/* Title */
+.title {
+    font-size: 28px;
+    color: royalblue;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Input container */
+.input-container {
+    margin-bottom: 20px;
+}
+
+/* Label */
+.input-container label {
+    color: #333;
+}
+
+/* Input field */
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Submit button */
+.submit {
+    width: 100%;
+    padding: 10px;
+    background-color: royalblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover */
+.submit:hover {
+    background-color: rgb(56, 90, 194);
+}
+
+/* Flex container */
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Flex items */
+.flex > div {
+    flex: 1; /* Each item takes equal space */
+    margin-right: 10px; /* Adjust spacing between items */
+}
+
+/* Flex items - last child */
+.flex > div:last-child {
+    margin-right: 0; /* Remove margin for the last item */
+}
