@@ -13,16 +13,18 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link" href="#">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
+        <span>Dashboard</span>
+        </a>
     </li>
 
     <!-- Nav Item - Profile -->
     <li class="nav-item">
-      <a class="nav-link" href="/profile">
+        <a class="nav-link" href="#">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Profile</span></a>
+        <span>Profile</span>
+        </a>
     </li>
 
     <!-- Divider -->

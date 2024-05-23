@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Clients;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Models\Airport;
+
 
 class ClientBookingController extends Controller
 {
@@ -16,7 +18,7 @@ class ClientBookingController extends Controller
     {
         $bookings = Booking::orderBy('created_at', 'DESC')->get();
 
-        return view('clientviews.bookings.index', compact('bookings'));
+        return view('clientviews.bookings-client.index', compact('bookings'));
     }
 
     /**
@@ -24,7 +26,7 @@ class ClientBookingController extends Controller
      */
     public function create()
     {
-        return view('clientviews.bookings.create');
+        return view('clientviews.bookings-client.create');
     }
 
     /**
@@ -33,21 +35,30 @@ class ClientBookingController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            // Define your validation rules here
+            'client_id' => 'required',
+            'flight_id' => 'required',
+            'passenger_count' => 'required|numeric',
+            'seat_id' => 'required',
+            'total_price' => 'required',
+            'status' => 'required',
+            'payment_status' => 'required',
+            'booking_date' => 'required|date',
+            'booking_reference' => 'required',
+            'notes' => 'nullable',
         ]);
 
         try {
-            DB::beginTransaction();
-
             $booking = Booking::create($validatedData);
-
-            DB::commit();
-
             return redirect()->route('client.bookings.index')->with('success', 'Booking added successfully');
         } catch (\Exception $e) {
-            DB::rollback();
             return back()->withInput()->withErrors(['error' => 'An error occurred while adding the booking. Please try again.']);
         }
+    }
+
+
+    public function __construct()
+    {
+        $this->middleware('client')->only('show'); // Apply existing middleware only to the 'show' method
     }
 
     /**
@@ -57,7 +68,7 @@ class ClientBookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        return view('clientviews.bookings.show', compact('booking'));
+        return view('clientviews.bookings-client.show', compact('booking'));
     }
 
     /**
@@ -67,7 +78,7 @@ class ClientBookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        return view('clientviews.bookings.edit', compact('booking'));
+        return view('clientviews.bookings-client.edit', compact('booking'));
     }
 
     /**
@@ -76,20 +87,21 @@ class ClientBookingController extends Controller
     public function update(Request $request, string $id)
     {
         $validatedData = $request->validate([
-            // Define your validation rules here
+            'passenger_count' => 'required|numeric',
+            'seat_id' => 'required',
+            'total_price' => 'required',
+            'status' => 'required',
+            'payment_status' => 'required',
+            'booking_date' => 'required|date',
+            'booking_reference' => 'required',
+            'notes' => 'nullable',
         ]);
 
         try {
-            DB::beginTransaction();
-
             $booking = Booking::findOrFail($id);
             $booking->update($validatedData);
-
-            DB::commit();
-
             return redirect()->route('client.bookings.index')->with('success', 'Booking updated successfully');
         } catch (\Exception $e) {
-            DB::rollback();
             return back()->withInput()->withErrors(['error' => 'An error occurred while updating the booking. Please try again.']);
         }
     }
@@ -100,17 +112,21 @@ class ClientBookingController extends Controller
     public function destroy(string $id)
     {
         try {
-            DB::beginTransaction();
-
             $booking = Booking::findOrFail($id);
             $booking->delete();
-
-            DB::commit();
-
             return redirect()->route('client.bookings.index')->with('success', 'Booking deleted successfully');
         } catch (\Exception $e) {
-            DB::rollback();
             return back()->withErrors(['error' => 'An error occurred while deleting the booking. Please try again.']);
         }
     }
+
+
+    public function getBookingsAndAirports()
+    {
+        $bookings = Booking::orderBy('created_at', 'DESC')->get();
+        $airports = Airport::all();
+
+        return response()->json(compact('bookings', 'airports'));
+    }
+
 }

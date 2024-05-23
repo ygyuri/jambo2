@@ -5,7 +5,7 @@
 @section('contents')
     <div class="d-flex align-items-center justify-content-between">
         <h1 class="mb-0">Flight Listings</h1>
-        <a href="{{ route('client.flights.create') }}" class="btn btn-primary">Add Flight</a>
+
     </div>
     <hr />
     @if(Session::has('success'))
@@ -43,8 +43,7 @@
                         <td>{{ $flight->status }}</td>
                         <td>
                             <a href="{{ route('client.flights.show', $flight->id) }}" class="btn btn-secondary">View</a>
-                            <a href="{{ route('client.flights.edit', $flight->id)}}" class="btn btn-warning">Edit</a>
-                        </td>
+                           
                     </tr>
                 @endforeach
             </tbody>

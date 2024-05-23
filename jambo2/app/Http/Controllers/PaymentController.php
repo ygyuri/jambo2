@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class PaymentController extends Controller
 {
-  
+
     /**
      * Display a listing of the payments.
      */

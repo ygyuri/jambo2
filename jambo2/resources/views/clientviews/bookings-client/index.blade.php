@@ -1,57 +1,68 @@
 @extends('layouts.client')
 
-@section('title', 'Edit Booking')
+@section('title', 'Client Bookings')
 
 @section('contents')
-    <h1 class="mb-0">Edit Booking</h1>
+    <div class="d-flex align-items-center justify-content-between">
+        <h1 class="mb-0">List of Bookings</h1>
+        <a href="{{ route('client.bookings.create') }}" class="btn btn-primary">Add Booking</a>
+    </div>
     <hr />
-    <form action="{{ route('client.bookings.update', $booking->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <div class="row">
-            <div class="col mb-3">
-                <label class="form-label">Passenger Count</label>
-                <input type="text" name="passenger_count" class="form-control" value="{{ $booking->passenger_count }}">
-            </div>
-            <div class="col mb-3">
-                <label class="form-label">Seat ID</label>
-                <input type="text" name="seat_id" class="form-control" value="{{ $booking->seat_id }}">
-            </div>
+    @if(Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('success') }}
         </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label class="form-label">Total Price</label>
-                <input type="text" name="total_price" class="form-control" value="{{ $booking->total_price }}">
-            </div>
-            <div class="col mb-3">
-                <label class="form-label">Status</label>
-                <input type="text" name="status" class="form-control" value="{{ $booking->status }}">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label class="form-label">Payment Status</label>
-                <input type="text" name="payment_status" class="form-control" value="{{ $booking->payment_status }}">
-            </div>
-            <div class="col mb-3">
-                <label class="form-label">Booking Date</label>
-                <input type="text" name="booking_date" class="form-control" value="{{ $booking->booking_date }}">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-3">
-                <label class="form-label">Booking Reference</label>
-                <input type="text" name="booking_reference" class="form-control" value="{{ $booking->booking_reference }}">
-            </div>
-            <div class="col mb-3">
-                <label class="form-label">Notes</label>
-                <textarea name="notes" class="form-control">{{ $booking->notes }}</textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="d-grid">
-                <button class="btn btn-warning">Update</button>
-            </div>
-        </div>
-    </form>
+    @endif
+    <table class="table table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th>#</th>
+                <th>Client ID</th>
+                <th>Flight ID</th>
+                <th>Passenger Count</th>
+                <th>Seat ID</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th>Booking Date</th>
+                <th>Booking Reference</th>
+                <th>Notes</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if($bookings->count() > 0)
+                @foreach($bookings as $booking)
+                    <tr>
+                        <td class="align-middle">{{ $loop->iteration }}</td>
+                        <td class="align-middle">{{ $booking->client_id }}</td>
+                        <td class="align-middle">{{ $booking->flight_id }}</td>
+                        <td class="align-middle">{{ $booking->passenger_count }}</td>
+                        <td class="align-middle">{{ $booking->seat_id }}</td>
+                        <td class="align-middle">{{ $booking->total_price }}</td>
+                        <td class="align-middle">{{ $booking->status }}</td>
+                        <td class="align-middle">{{ $booking->payment_status }}</td>
+                        <td class="align-middle">{{ $booking->booking_date }}</td>
+                        <td class="align-middle">{{ $booking->booking_reference }}</td>
+                        <td class="align-middle">{{ $booking->notes }}</td>
+                        <td class="align-middle">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{ route('client.bookings.show', $booking->id) }}" type="button" class="btn btn-secondary">Detail</a>
+                                <a href="{{ route('client.bookings.edit', $booking->id) }}" type="button" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('client.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('Delete?')" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td class="text-center" colspan="12">No bookings found</td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
 @endsection

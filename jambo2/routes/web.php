@@ -209,6 +209,8 @@ Route::prefix('clients')->group(function () {
     Route::delete('destroy/{id}', [ClientController::class, 'destroy'])->name('clients.destroy');
     Route::post('filter', [ClientController::class, 'filter'])->name('clients.filter');
 });
+Route::get('/bookings-and-airports', [ClientBookingController::class, 'getBookingsAndAirports'])->name('client.bookings.and.airports');
+
 
 
 
@@ -256,12 +258,14 @@ Route::prefix('client')->group(function () {
     Route::get('/flight-schedules/{id}', [ClientFlightScheduleController::class, 'show'])->name('client.flight_schedules.show');
 });
 
+
+
 // Client Payment Routes
 Route::prefix('client')->group(function () {
     Route::get('/payments', [ClientPaymentController::class, 'index'])->name('client.payments.index');
-    Route::get('/payments/{id}', [ClientPaymentController::class, 'show'])->name('client.payments.show');
     Route::get('/payments/create', [ClientPaymentController::class, 'create'])->name('client.payments.create');
     Route::post('/payments', [ClientPaymentController::class, 'store'])->name('client.payments.store'); // Define store route
+    Route::get('/payments/{id}', [ClientPaymentController::class, 'show'])->name('client.payments.show');
     Route::get('/payments/{id}/edit', [ClientPaymentController::class, 'edit'])->name('client.payments.edit');
     Route::put('/payments/{id}', [ClientPaymentController::class, 'update'])->name('client.payments.update'); // Define update route
     Route::delete('/payments/{id}', [ClientPaymentController::class, 'destroy'])->name('client.payments.destroy'); // Define delete route

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Web Design Mastery | Flivan</title>
+    <title>YG Productions | Elite  </title>
 </head>
 <body>
 <nav>
-    <div class="nav__logo">Flivan</div>
+    <div class="nav__logo">ELITE</div>
     <ul class="nav__links">
         <li class="link"><a href="#">Home</a></li>
         <li class="link"><a href="#">About</a></li>
@@ -17,63 +17,103 @@
         <li class="link"><a href="#">Seats</a></li>
         <li class="link"><a href="#">Destinations</a></li>
     </ul>
-    <button class="btn">Contact</button>
+    <button class="btn"><a href="{{ route('admin.login') }}">Admin Login</a></button>
+    <button class="btn"><a href="{{ route('client.login') }}">Client Login</a></button>
+
 </nav>
 <header class="section__container header__container">
     <h1 class="section__header">Find And Book<br />A Great Experience</h1>
     <img src="{{ asset('assets/header.jpg') }}" alt="header" />
 </header>
 
+
 <section class="section__container booking__container">
     <div class="booking__nav">
+        <!-- Display seat classes -->
         <span>Economy Class</span>
         <span>Business Class</span>
         <span>First Class</span>
     </div>
-    <form>
+    <form id="bookingForm" method="GET">
+        <!-- Location selection -->
         <div class="form__group">
             <span><i class="ri-map-pin-line"></i></span>
             <div class="input__content">
                 <div class="input__group">
-                    <input type="text" />
-                    <label>Location</label>
+                    <!-- Use a dropdown to select airports -->
+                    <select name="location" id="location">
+                        <option value="">Select Location</option>
+                    </select>
+                    <label></label>
                 </div>
                 <p>Where are you going?</p>
             </div>
         </div>
+        <!-- Number of passengers -->
         <div class="form__group">
             <span><i class="ri-user-3-line"></i></span>
             <div class="input__content">
                 <div class="input__group">
-                    <input type="number" />
+                    <input type="number" name="passengers" id="passengers" />
                     <label>Travellers</label>
                 </div>
                 <p>Add guests</p>
             </div>
         </div>
+        <!-- Departure date -->
         <div class="form__group">
             <span><i class="ri-calendar-line"></i></span>
             <div class="input__content">
                 <div class="input__group">
-                    <input type="text" />
+                    <input type="text" name="departure_date" id="departure_date" />
                     <label>Departure</label>
                 </div>
                 <p>Add date</p>
             </div>
         </div>
+        <!-- Return date -->
         <div class="form__group">
             <span><i class="ri-calendar-line"></i></span>
             <div class="input__content">
                 <div class="input__group">
-                    <input type="text" />
+                    <input type="text" name="return_date" id="return_date" />
                     <label>Return</label>
                 </div>
                 <p>Add date</p>
             </div>
         </div>
-        <button class="btn"><i class="ri-search-line"></i></button>
+        <!-- Search button -->
+        <button type="button" class="btn" id="searchButton"><i class="ri-search-line"></i></button>
     </form>
 </section>
+
+<script>
+    // Fetch bookings and airports
+    fetch("{{ route('client.bookings.and.airports') }}")
+        .then(response => response.json())
+        .then(data => {
+            const airportsSelect = document.getElementById('location');
+            airportsSelect.innerHTML = ''; // Clear the existing options
+
+            // Add options for airports
+            data.airports.forEach(airport => {
+                const option = document.createElement('option');
+                option.value = airport.id;
+                option.textContent = airport.name;
+                airportsSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+    // Event listener for search button
+    document.getElementById('searchButton').addEventListener('click', function() {
+        // Redirect logic
+        // You can access bookings data from `data.bookings`
+        // Check if the user has a booking, etc.
+    });
+</script>
 
 <section class="section__container plan__container">
     <p class="subheader">TRAVEL SUPPORT</p>
@@ -241,10 +281,10 @@
 <footer class="footer">
     <div class="section__container footer__container">
         <div class="footer__col">
-            <h3>Flivan</h3>
+            <h3>ELITE</h3>
             <p>
                 Where Excellence Takes Flight. With a strong commitment to customer
-                satisfaction and a passion for air travel, Flivan Airlines offers
+                satisfaction and a passion for air travel, ELITE Airlines offers
                 exceptional service and seamless journeys.
             </p>
             <p>

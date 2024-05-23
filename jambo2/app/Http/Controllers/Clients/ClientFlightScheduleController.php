@@ -17,7 +17,7 @@ class ClientFlightScheduleController extends Controller
     {
         $flightSchedules = FlightSchedule::orderBy('departure_time', 'ASC')->get();
 
-        return view('flight_schedules.index', compact('flightSchedules'));
+        return view('clientviews.flight-schedules-client.index', compact('flightSchedules'));
     }
 
     /**
