@@ -2,95 +2,115 @@
 
 namespace App\Http\Controllers\Clients;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class ClientBookingController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        try {
-            $bookings = Booking::where('client_id', Auth::user()->id)->paginate(10);
-            return view('clientviews.bookings-client.index', compact('bookings'));
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching bookings.']);
-        }
+        $bookings = Booking::orderBy('created_at', 'DESC')->get();
+
+        return view('clientviews.bookings.index', compact('bookings'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return view('clientviews.bookings-client.create');
+        return view('clientviews.bookings.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'client_id' => ['required', 'integer'],
-            'flight_id' => 'required|integer',
-            'passenger_count' => 'required|integer',
-            'seat_id' => 'required|integer',
-            'total_price' => 'required|numeric',
-            'status' => 'required|string',
-            'payment_status' => 'required|string',
-            'booking_date' => 'required|date',
-            'booking_reference' => 'required|string|unique:bookings,booking_reference',
+        $validatedData = $request->validate([
+            // Define your validation rules here
         ]);
 
-        DB::beginTransaction();
         try {
-            $booking = Booking::create([
-                'client_id' => Auth::user()->id,
-                'flight_id' => $request->flight_id,
-                'passenger_count' => $request->passenger_count,
-                'seat_id' => $request->seat_id,
-                'total_price' => $request->total_price,
-                'status' => $request->status,
-                'payment_status' => $request->payment_status,
-                'booking_date' => $request->booking_date,
-                'booking_reference' => $request->booking_reference,
-            ]);
+            DB::beginTransaction();
+
+            $booking = Booking::create($validatedData);
 
             DB::commit();
 
-            return redirect()->route('client.bookings.index')->with('success', 'Booking created successfully');
-        } catch (Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-    }
-
-    public function show($id)
-    {
-        try {
-            $booking = Booking::findOrFail($id);
-            return view('clientviews.bookings-client.show', compact('booking'));
+            return redirect()->route('client.bookings.index')->with('success', 'Booking added successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Booking not found.']);
+            DB::rollback();
+            return back()->withInput()->withErrors(['error' => 'An error occurred while adding the booking. Please try again.']);
         }
     }
 
-    public function edit($id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
+        $booking = Booking::findOrFail($id);
+
+        return view('clientviews.bookings.show', compact('booking'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        return view('clientviews.bookings.edit', compact('booking'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $validatedData = $request->validate([
+            // Define your validation rules here
+        ]);
+
         try {
+            DB::beginTransaction();
+
             $booking = Booking::findOrFail($id);
-            return view('clientviews.bookings-client.edit', compact('booking'));
+            $booking->update($validatedData);
+
+            DB::commit();
+
+            return redirect()->route('client.bookings.index')->with('success', 'Booking updated successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Booking not found.']);
+            DB::rollback();
+            return back()->withInput()->withErrors(['error' => 'An error occurred while updating the booking. Please try again.']);
         }
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
         try {
+            DB::beginTransaction();
+
             $booking = Booking::findOrFail($id);
             $booking->delete();
+
+            DB::commit();
+
             return redirect()->route('client.bookings.index')->with('success', 'Booking deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'An error occurred while deleting the booking.']);
+            DB::rollback();
+            return back()->withErrors(['error' => 'An error occurred while deleting the booking. Please try again.']);
         }
     }
 }

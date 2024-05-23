@@ -1,58 +1,57 @@
 @extends('layouts.client')
 
-@section('title', 'Client Bookings')
+@section('title', 'Edit Booking')
 
-@section('content')
-    <h1>Client Bookings</h1>
+@section('contents')
+    <h1 class="mb-0">Edit Booking</h1>
     <hr />
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <form action="{{ route('client.bookings.update', $booking->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Passenger Count</label>
+                <input type="text" name="passenger_count" class="form-control" value="{{ $booking->passenger_count }}">
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Seat ID</label>
+                <input type="text" name="seat_id" class="form-control" value="{{ $booking->seat_id }}">
+            </div>
         </div>
-    @endif
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Flight ID</th>
-                <th>Passenger Count</th>
-                <th>Seat ID</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Payment Status</th>
-                <th>Booking Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($bookings as $booking)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $booking->flight_id }}</td>
-                    <td>{{ $booking->passenger_count }}</td>
-                    <td>{{ $booking->seat_id }}</td>
-                    <td>{{ $booking->total_price }}</td>
-                    <td>{{ $booking->status }}</td>
-                    <td>{{ $booking->payment_status }}</td>
-                    <td>{{ $booking->booking_date->format('Y-m-d') }}</td>
-                    <td>
-                        <form action="{{ route('client.bookings.destroy', $booking->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this booking?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{ $bookings->links() }}
-
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Total Price</label>
+                <input type="text" name="total_price" class="form-control" value="{{ $booking->total_price }}">
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Status</label>
+                <input type="text" name="status" class="form-control" value="{{ $booking->status }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Payment Status</label>
+                <input type="text" name="payment_status" class="form-control" value="{{ $booking->payment_status }}">
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Booking Date</label>
+                <input type="text" name="booking_date" class="form-control" value="{{ $booking->booking_date }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Booking Reference</label>
+                <input type="text" name="booking_reference" class="form-control" value="{{ $booking->booking_reference }}">
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control">{{ $booking->notes }}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-grid">
+                <button class="btn btn-warning">Update</button>
+            </div>
+        </div>
+    </form>
 @endsection

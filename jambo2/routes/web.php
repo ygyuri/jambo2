@@ -236,9 +236,12 @@ Route::prefix('client')->group(function () {
 // Client Booking Routes
 Route::prefix('client')->group(function () {
     Route::get('/bookings', [ClientBookingController::class, 'index'])->name('client.bookings.index');
-    Route::get('/bookings/{id}', [ClientBookingController::class, 'show'])->name('client.bookings.show');
     Route::get('/bookings/create', [ClientBookingController::class, 'create'])->name('client.bookings.create');
+    Route::post('/bookings/store', [ClientBookingController::class, 'store'])->name('client.bookings.store');
+    Route::get('/bookings/{id}', [ClientBookingController::class, 'show'])->name('client.bookings.show');
     Route::get('/bookings/{id}/edit', [ClientBookingController::class, 'edit'])->name('client.bookings.edit');
+    Route::put('/bookings/{id}', [ClientBookingController::class, 'update'])->name('client.bookings.update');
+    Route::delete('/bookings/{id}', [ClientBookingController::class, 'destroy'])->name('client.bookings.destroy');
 });
 
 // Client Flight Routes

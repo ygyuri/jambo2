@@ -2,36 +2,34 @@
 
 namespace App\Http\Controllers\Clients;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\FlightSchedule;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ClientFlightScheduleController extends Controller
 {
+    /**
+     * Display a listing of the flight schedules.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        try {
-            $flightSchedules = FlightSchedule::whereHas('flight', function ($query) {
-                $query->where('client_id', Auth::user()->id);
-            })->paginate(10);
-            return view('clientviews.flight-schedules-client.index', compact('flightSchedules'));
-        } catch (\Exception $e) {
-            // Log the error or handle it as needed
-            return redirect()->back()->withErrors(['error' => 'An error occurred while fetching flight schedules.']);
-        }
+        $flightSchedules = FlightSchedule::orderBy('departure_time', 'ASC')->get();
+
+        return view('flight_schedules.index', compact('flightSchedules'));
     }
 
-    public function show($id)
+    /**
+     * Display the specified flight schedule.
+     *
+     * @param  string  $id
+     * @return \Illuminate\View\View
+     */
+    public function show(string $id)
     {
-        try {
-            $flightSchedule = FlightSchedule::whereHas('flight', function ($query) {
-                $query->where('client_id', Auth::user()->id);
-            })->findOrFail($id);
-            return view('clientviews.flight-schedules-client.show', compact('flightSchedule'));
-        } catch (\Exception $e) {
-            // Log the error or handle it as needed
-            return redirect()->back()->withErrors(['error' => 'Flight schedule not found.']);
-        }
+        $flightSchedule = FlightSchedule::findOrFail($id);
+
+        return view('flight_schedules.show', compact('flightSchedule'));
     }
 }
