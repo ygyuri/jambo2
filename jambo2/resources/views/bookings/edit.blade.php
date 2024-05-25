@@ -11,47 +11,47 @@
         <div class="mb-3 row">
             <div class="col">
                 <label for="client_id" class="form-label">Client ID</label>
-                <input type="text" name="client_id" class="form-control" value="{{ $booking->client_id }}">
+                <input type="text" name="client_id" class="form-control" value="{{ $booking->client_id }}" required>
             </div>
             <div class="col">
                 <label for="flight_id" class="form-label">Flight ID</label>
-                <input type="text" name="flight_id" class="form-control" value="{{ $booking->flight_id }}">
+                <input type="text" name="flight_id" class="form-control" value="{{ $booking->flight_id }}" required>
             </div>
         </div>
         <div class="mb-3 row">
             <div class="col">
                 <label for="passenger_count" class="form-label">Passenger Count</label>
-                <input type="text" name="passenger_count" class="form-control" value="{{ $booking->passenger_count }}">
+                <input type="number" name="passenger_count" class="form-control" value="{{ $booking->passenger_count }}" required>
             </div>
             <div class="col">
                 <label for="seat_id" class="form-label">Seat ID</label>
-                <input type="text" name="seat_id" class="form-control" value="{{ $booking->seat_id }}">
+                <input type="text" name="seat_id" class="form-control" value="{{ $booking->seat_id }}" required>
             </div>
         </div>
         <div class="mb-3 row">
             <div class="col">
                 <label for="total_price" class="form-label">Total Price</label>
-                <input type="text" name="total_price" class="form-control" value="{{ $booking->total_price }}">
+                <input type="text" name="total_price" class="form-control" value="{{ $booking->total_price }}" required>
             </div>
             <div class="col">
                 <label for="status" class="form-label">Status</label>
-                <input type="text" name="status" class="form-control" value="{{ $booking->status }}">
+                <input type="text" name="status" class="form-control" value="{{ $booking->status }}" required>
             </div>
         </div>
         <div class="mb-3 row">
             <div class="col">
                 <label for="payment_status" class="form-label">Payment Status</label>
-                <input type="text" name="payment_status" class="form-control" value="{{ $booking->payment_status }}">
+                <input type="text" name="payment_status" class="form-control" value="{{ $booking->payment_status }}" required>
             </div>
             <div class="col">
                 <label for="booking_date" class="form-label">Booking Date</label>
-                <input type="date" name="booking_date" class="form-control" value="{{ $booking->booking_date->format('Y-m-d') }}">
+                <input type="date" name="booking_date" class="form-control" value="{{ $booking->booking_date->format('Y-m-d') }}" required>
             </div>
         </div>
         <div class="mb-3 row">
             <div class="col">
                 <label for="booking_reference" class="form-label">Booking Reference</label>
-                <input type="text" name="booking_reference" class="form-control" value="{{ $booking->booking_reference }}">
+                <input type="text" name="booking_reference" class="form-control" value="{{ $booking->booking_reference }}" required>
             </div>
             <div class="col">
                 <label for="notes" class="form-label">Notes</label>

@@ -10,10 +10,11 @@ use Illuminate\Support\Str;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
-   
+
 
     /**
      * Display a listing of the bookings.
@@ -135,20 +136,22 @@ class BookingController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\RedirectResponse
      */
+
+
     public function update(Request $request, string $id)
     {
         // Validate request
         $request->validate([
             'client_id' => 'required',
             'flight_id' => 'required',
-            'passenger_count' => 'required',
+            'passenger_count' => 'required|integer',
             'seat_id' => 'required',
-            'total_price' => 'required',
+            'total_price' => 'required|numeric',
             'status' => 'required',
             'payment_status' => 'required',
             'booking_date' => 'required|date',
             'booking_reference' => 'required',
-            // Add any additional validation rules here
+            'notes' => 'nullable|string',
         ]);
 
         // Find booking by ID
@@ -156,7 +159,7 @@ class BookingController extends Controller
 
         // Check if booking exists
         if (!$booking) {
-            return redirect()->route('bookings')->with('error', 'Booking not found');
+            return redirect()->route('bookings.index')->with('error', 'Booking not found');
         }
 
         // Start database transaction
@@ -168,14 +171,18 @@ class BookingController extends Controller
             // Commit transaction
             DB::commit();
         } catch (Exception $e) {
+            // Log the error
+            Log::error('Failed to update booking: ' . $e->getMessage());
+
             // Rollback transaction on exception
             DB::rollBack();
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update booking: ' . $e->getMessage());
         }
 
         // Redirect with success message
-        return redirect()->route('bookings')->with('success', 'Booking updated successfully');
+        return redirect()->route('bookings.index')->with('success', 'Booking updated successfully');
     }
+
 
     /**
      * Remove the specified booking from storage.
