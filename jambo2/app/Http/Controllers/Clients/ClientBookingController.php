@@ -56,11 +56,7 @@ class ClientBookingController extends Controller
     }
 
 
-    public function __construct()
-    {
-        $this->middleware('client')->only('show'); // Apply existing middleware only to the 'show' method
-    }
-
+  
     /**
      * Display the specified resource.
      */
